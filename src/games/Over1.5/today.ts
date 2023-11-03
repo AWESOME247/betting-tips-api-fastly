@@ -2,16 +2,11 @@ import { Hono } from "hono";
 import { cache } from "hono/cache";
 import * as cheerio from "cheerio";
 import axios from "redaxios";
+import { todayDate } from "../../mixin/todayDate"
 const app= new Hono();
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
-
-const d = new Date();
-const month = months[d.getMonth()];
-const day = d.getDate();
 
 const meritPredict = async () => {
+    const { day, month } = todayDate();
     const { data } = await axios.get('https://zakabet.com/over-1-5-goals-2/');
     const html = data;
     const $ = cheerio.load(html);
@@ -55,6 +50,7 @@ const meritPredict = async () => {
 }
 
 const venasbet = async () => {
+    const { day, month } = todayDate();
     const { data } = await axios.get('https://venasbet.com/over_1_5_goals');
     const html = data;
     const $ = cheerio.load(html);

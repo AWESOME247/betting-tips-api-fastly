@@ -1,7 +1,9 @@
 {
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "wrangler:dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.2.0",
@@ -11,6 +13,8 @@
     "redaxios": "^0.5.1"
   },
   "devDependencies": {
-    "tsx": "^3.12.2"
+    "@cloudflare/workers-types": "^4.20231025.0",
+    "tsx": "^3.12.2",
+    "wrangler": "^3.15.0"
   }
 }

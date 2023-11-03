@@ -2,42 +2,18 @@ import { Hono } from "hono";
 import { cache } from "hono/cache";
 import * as cheerio from "cheerio";
 import axios from "redaxios";
+import { yesterdayDate } from "../../mixin/yesterdayDate";
 
 const app = new Hono();
-const months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-const d = new Date();
-const yesterday = new Date(d);
-yesterday.setDate(d.getDate() - 1);
-const day = yesterday.getDate();
-const getCurrentMonth = () => {
-  if(d.getDate() === 1) {
-      return months[d.getMonth() - 1]
-  }
-  return months[d.getMonth()]
-}
-const month = getCurrentMonth();
 
 const meritPredict = async () => {
+  const {month, yesterday } = yesterdayDate();
   const { data } = await axios.get("https://www.soccervital.com/bet/?sh=-1");
   const html = data;
   const $ = cheerio.load(html);
   const teams: any = [];
   $(".center .main tbody tr").each((i, el) => {
-    const date = `${month} ${day}`;
+    const date = `${month} ${yesterday}`;
     const cells = $(el).find("td");
     if (cells.length === 2) {
       const league = $($(el).find(".headupe a"))
